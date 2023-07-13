@@ -6,18 +6,18 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
+  REGISTER } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 
-import deckReducer from "./features/decks/deckSlice"
+import deckReducer from './features/decks/deckSlice'
 
 /** Creates store and instantiates persistance */
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage,
   stateReconciler: autoMergeLevel2,

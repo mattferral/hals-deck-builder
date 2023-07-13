@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuid } from 'uuid';
 
-import deckModel from "../../models/deckModel";
+import deckModel from '../../models/deckModel';
 
 const initialState = [];
 
