@@ -3,13 +3,21 @@ const deckModel = {
   name: '',
   format: 'standard',
   colors: '',
-  commander: '',
+  commander: undefined,
   maxCount: 60,
   cardCount: 0,
-  decklist: [
-    
+  decklist: {
+    creature: [],
+    sorcery: [],
+    instant: [],
+    artifact: [],
+    enchantment: [],
+    land: []
+  },
+  sideboard: [
+
   ],
-  lands: {
+  basicLands: {
     plains: 0,
     forest: 0,
     mountain: 0,
