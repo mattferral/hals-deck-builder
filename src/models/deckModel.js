@@ -6,6 +6,8 @@ const deckModel = {
   commander: undefined,
   maxCount: 60,
   cardCount: 0,
+  duplicateLimit: 4,
+  backgroundImg: undefined,
   decklist: {
     creature: [],
     sorcery: [],
