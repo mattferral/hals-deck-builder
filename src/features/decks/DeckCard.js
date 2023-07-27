@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
 import {
   Card,
   CardTitle,
@@ -10,6 +8,9 @@ import {
   CardHeader,
   CardFooter,
 } from 'reactstrap';
+
+import Mana from '../../common/Mana';
+
 
 const DeckCard = ({ deck }) => {
   const {
@@ -21,10 +22,9 @@ const DeckCard = ({ deck }) => {
     maxCount
   } = deck;
 
-  console.log(deck);
-
   const defaultImgURL = 'https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f8/Magic_card_back.jpg/';
 
+  
   return (
     <>
       <Link to={`/decks/${name}`} className='text-muted'
@@ -51,16 +51,14 @@ const DeckCard = ({ deck }) => {
           />
 
           <CardFooter>
-            {colors.map(color => 
-                <CardImg
-                  className='m-1'
-                  src={`/images/colors/${color}.png`}
-                  bottom
-                  style={{
-                    width: '1.82rem',
-                  }}
-                />
-              )}
+            <Mana
+              mana={colors}
+              className='m-1'
+              style={{
+                width: '1.82rem',
+              }}
+              bottom
+            />
           </CardFooter>
           
         </Card>
