@@ -4,13 +4,12 @@ const Mana = ({ mana, style, className }) => {
 
   return (
     <>
-      {mana.split("").map(char => (
+      {mana && mana.split(/\W/).map(symbol => (
         <>
-          {char.match(/\d/) ? `(${char}) ` : <></>}
-          {char.match(/[a-z]/i)
+          {symbol.match(/\w+/i)
             ?
               <img
-                src={`/images/colors/${char}.png`}
+                src={`/images/colors/${symbol}.svg`}
                 style={style ? style : {width: '2rem'}}
                 className={className ? className : undefined}
               />
