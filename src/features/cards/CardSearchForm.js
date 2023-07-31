@@ -65,12 +65,14 @@ const CardSearchForm = ({ getSearch }) => {
   const toggle = () => setShowfilters(!showfilters);
 
   return (
-    <Form className="d-flex flex-row justify-content-center align-items-center">
+    <Form className="container justify-content-md-center">
       <FormGroup
-        className="w-50"
+        className="d-flex justify-content-center"
         onSubmit={handleSubmit}
       >
-        <InputGroup>
+        <InputGroup
+          className="w-50 m-2"
+        >
           <Input
             type="text"
             id="name"
@@ -85,110 +87,125 @@ const CardSearchForm = ({ getSearch }) => {
             Search
           </Button>
         </InputGroup>
+
+        <Button
+            className="m-2"
+            color="secondary"
+            onClick={toggle}
+          >
+            {showfilters ? "Hide Filters" : "Show Filters"}
+        </Button>
       </FormGroup>
-
-      <Button
-        color="secondary"
-        onClick={toggle}
-        style={{ marginBottom: '1rem' }}
-      >
-        Filters
-      </Button>
-
-      <Collapse isOpen={showfilters}>
-        <Card>
-          <CardBody>
-            <FormGroup size="sm">
-              <Label for="rarity">Rarity</Label>
-              <Input
-                id="rarity"
-                name="rarity"
-                type="select"
-                value={formData.rarity}
-                onChange={handleChange}
-              >
-                <option defaultValue></option>
-                <option value="mythic">Mythic Rare</option>
-                <option value="rare">Rare</option>
-                <option value="uncommon">Uncommon</option>
-                <option value="common">Common</option>
-              </Input>
-              
-              <Label for="color">Color</Label>
-              <InputGroup name="color">
-                {Object.keys(initialState.color).map(color => (
-                  <>
-                    <Label
-                      for={color}
-                      key={`color-${color}`}
-                    >
-                      {color}
-                    </Label>
-                    <Input
-                      type="checkbox"
-                      id="color"
-                      name={color}
-                      onChange={handleChange}
-                      checked={formData.color[color]}
-                      key={color}
-                    />
-                  </>
-                ))}
-              </InputGroup>
-
-              <Label for="subtype">Subtype</Label>
-              <Input
-                type="text"
-                id="subtype"
-                name="subtype"
-                placeholder="e.g. eldrazi, aura, vehicle "
-              />
-              
-              <Label>Set</Label>
-              <Input
-                type="text"
-                list="sets"
-                id="set"
-                name="set"
-                value={formData.set}
-                onChange={handleChange}
-              />
-              <datalist id="sets">
-                {sets.map(set => (
-                  <option
-                    value={set.name}
-                    key={set.name}
+      
+      <FormGroup className="d-flex justify-content-center">
+        <Collapse isOpen={showfilters} className="w-50">
+          <Card>
+            <CardBody className="container">
+              <div className="row">
+                <FormGroup className="col">
+                  <Label for="rarity">Rarity</Label>
+                  <Input
+                    id="rarity"
+                    name="rarity"
+                    type="select"
+                    value={formData.rarity}
+                    onChange={handleChange}
                   >
-                    {set.name}
-                  </option>
-                ))}
-              </datalist>
+                    <option defaultValue></option>
+                    <option value="mythic">Mythic Rare</option>
+                    <option value="rare">Rare</option>
+                    <option value="uncommon">Uncommon</option>
+                    <option value="common">Common</option>
+                  </Input>
+                </FormGroup>
 
-              <Label for="type">Type</Label>
-              <InputGroup>
-                {Object.keys(initialState.type).map(type => (
-                  <>
-                    <Label
-                      for={type}
-                      key={`type-${type}`}
-                    >
-                      {type}
-                    </Label>
-                    <Input
-                      type="checkbox"
-                      id="type"
-                      name={type}
-                      onChange={handleChange}
-                      checked={formData.type[type]}
-                      key={type}
-                    />
-                  </>
-                ))}
-              </InputGroup>
-            </FormGroup>
-          </CardBody>
-        </Card>
-      </Collapse> 
+                <FormGroup className="col">
+                  <Label>Set</Label>
+                  <Input
+                    type="text"
+                    list="sets"
+                    id="set"
+                    name="set"
+                    value={formData.set}
+                    onChange={handleChange}
+                  />
+                  <datalist id="sets">
+                    {sets.map(set => (
+                      <option
+                        value={set.name}
+                        key={set.name}
+                      >
+                        {set.name}
+                      </option>
+                    ))}
+                  </datalist>
+                </FormGroup>
+              </div>
+
+              <div className="row">
+                <Label for="subtype">Subtype</Label>
+                <Input
+                  type="text"
+                  id="subtype"
+                  name="subtype"
+                  placeholder="e.g. eldrazi, aura, vehicle"
+                />
+              </div>
+
+              <div className="row">
+                <Label for="color">Color</Label>
+                <FormGroup name="color" className="row">
+                  {Object.keys(initialState.color).map(color => (
+                    <FormGroup className="col">
+                      <Label
+                        for={color}
+                        key={`color-${color}`}
+                      >
+                        {color}
+                      </Label>
+                      <Input
+                        type="checkbox"
+                        id="color"
+                        name={color}
+                        onChange={handleChange}
+                        checked={formData.color[color]}
+                        key={color}
+                        className="m-1"
+                      />
+                    </FormGroup>
+                  ))}
+                </FormGroup>
+              </div>
+
+              <div className="row">
+                <Label for="type">Type</Label>
+                <FormGroup className="row">
+                  {Object.keys(initialState.type).map(type => (
+                    <FormGroup className="col">
+                      <Label
+                        for={type}
+                        key={`type-${type}`}
+                      >
+                        {type}
+                      </Label>
+                      <Input
+                        type="checkbox"
+                        id="type"
+                        name={type}
+                        onChange={handleChange}
+                        checked={formData.type[type]}
+                        key={type}
+                        className="m-1"
+                      />
+                    </FormGroup>
+                  ))}
+                </FormGroup>
+              </div>
+
+            </CardBody>
+          </Card>
+        </Collapse>
+      </FormGroup>
     </Form>
   );
 };
