@@ -8,7 +8,7 @@ const SearchList = ({ cards, className }) => {
   return (
     <ListGroup className={className} >
       {!!cards.length && cards.map(card => (
-          <SearchItem cardObj={card} />
+          <SearchItem cardObj={card} key={card.id} />
       ))}
     </ListGroup>
   );
