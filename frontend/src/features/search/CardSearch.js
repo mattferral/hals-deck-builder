@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import SearchForm from "./SearchForm";
 
-const Search = ({ deck }) => {
+import CardSearchForm from "./CardSearchForm";
+import SearchList from "./SearchList";
 
-  const getSearch = async (formData) => {
+const CardSearch = ({ deck, className }) => {
+
+  const [searchedCards, setSearchedCards] = useState([]);
+
+  const getSearch = (formData) => {
     const url = buildSearchURL(formData);
-    console.log(url);
-
-    try {
-      let cards = await axios.get(url);
-      console.log(cards.data);
-    } catch (e) {
-      console.error(e);
-    }
+    axios.get(url)
+      .then(res => {
+        setSearchedCards(res.data.cards);
+      })
+      .catch(e => console.error(e));
   };
 
   const buildSearchURL = (data) => {
+    // builds url for search request from data
     const searchURL = new URL('https://api.magicthegathering.io/v1/cards');
     
     if (deck) {
@@ -53,11 +55,19 @@ const Search = ({ deck }) => {
     return searchURL.href;
   };
 
+  console.log(searchedCards)
+
   return (
-    <>
-      <SearchForm getSearch={getSearch}/>
-    </>
+    <div className="justify-content-center">
+      <CardSearchForm
+        getSearch={getSearch}
+      />
+      <SearchList
+        cards={searchedCards}
+        className="d-flex"
+      />
+    </div>
   );
 };
 
-export default Search;
+export default CardSearch;

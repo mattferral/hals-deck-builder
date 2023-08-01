@@ -3,18 +3,19 @@ const deckModel = {
   name: '',
   format: 'standard',
   colors: '',
-  commander: undefined,
-  maxCount: 60,
+  minCount: 60,
   cardCount: 0,
   duplicateLimit: 4,
   backgroundImg: undefined,
-  decklist: {
-    creature: [],
-    sorcery: [],
-    instant: [],
+  deckList: {
+    commander: undefined,
     artifact: [],
+    creature: [],
     enchantment: [],
-    land: []
+    instant: [],
+    land: [],
+    planeswalker: [],
+    sorcery: [],
   },
   sideboard: [
 
@@ -24,7 +25,8 @@ const deckModel = {
     forest: 0,
     mountain: 0,
     swamp: 0,
-    island: 0
+    island: 0,
+    colorless: 0,
   }
 };
 

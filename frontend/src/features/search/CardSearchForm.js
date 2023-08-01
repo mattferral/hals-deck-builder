@@ -59,6 +59,7 @@ const CardSearchForm = ({ getSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     getSearch(formData);
+    setShowfilters(false);
   };
 
   const [showfilters, setShowfilters] = useState(false);
@@ -156,20 +157,14 @@ const CardSearchForm = ({ getSearch }) => {
                 <Label for="color">Color</Label>
                 <FormGroup name="color" className="row">
                   {Object.keys(initialState.color).map(color => (
-                    <FormGroup className="col">
-                      <Label
-                        for={color}
-                        key={`color-${color}`}
-                      >
-                        {color}
-                      </Label>
+                    <FormGroup className="col" key={color}>
+                      <Label for={color}>{color}</Label>
                       <Input
                         type="checkbox"
                         id="color"
                         name={color}
                         onChange={handleChange}
                         checked={formData.color[color]}
-                        key={color}
                         className="m-1"
                       />
                     </FormGroup>
@@ -181,10 +176,9 @@ const CardSearchForm = ({ getSearch }) => {
                 <Label for="type">Type</Label>
                 <FormGroup className="row">
                   {Object.keys(initialState.type).map(type => (
-                    <FormGroup className="col">
+                    <FormGroup className="col" key={type}>
                       <Label
                         for={type}
-                        key={`type-${type}`}
                       >
                         {type}
                       </Label>
@@ -194,7 +188,6 @@ const CardSearchForm = ({ getSearch }) => {
                         name={type}
                         onChange={handleChange}
                         checked={formData.type[type]}
-                        key={type}
                         className="m-1"
                       />
                     </FormGroup>
