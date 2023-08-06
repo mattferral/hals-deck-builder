@@ -9,7 +9,7 @@ import SearchList from "../search/SearchList";
 const Deck = () => {
   const { name } = useParams();
 
-  const deckState = useSelector(st => st.decks.find(deck => deck.name === name));
+  const deckState = useSelector(st => st.decks[name]);
 
   const {
     format,
@@ -25,7 +25,7 @@ const Deck = () => {
 
   return (
     <>
-      <h1 className="text-light">{name}</h1>
+      <h1 className="text-light">{deckState.name}</h1>
         {Object.keys(deckList).map(key => (
           <div key={key}>
             {!!deckList[key].length && 

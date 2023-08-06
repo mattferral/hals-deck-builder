@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardFooter,
 } from 'reactstrap';
+import slugify from 'slugify';
 
 import Mana from '../../common/Mana';
 
@@ -19,7 +20,7 @@ const DeckCard = ({ deck }) => {
     backgroundImg,
     format,
     cardCount,
-    maxCount
+    minCount
   } = deck;
 
   const defaultImgURL = 'https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f8/Magic_card_back.jpg/';
@@ -27,7 +28,7 @@ const DeckCard = ({ deck }) => {
   
   return (
     <>
-      <Link to={`/decks/${name}`} className='text-muted'
+      <Link to={`/decks/${slugify(name)}`} className='text-muted'
         style={{
           width: '15rem',
         }}
@@ -41,7 +42,7 @@ const DeckCard = ({ deck }) => {
             </CardTitle>
 
             <CardSubtitle className='text-light'>{format}</CardSubtitle>
-            <CardSubtitle className='text-light'>{cardCount}/{maxCount}</CardSubtitle>
+            <CardSubtitle className='text-light'>{cardCount}/{minCount}</CardSubtitle>
           </CardHeader>
           
 

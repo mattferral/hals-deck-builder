@@ -1,25 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuid } from 'uuid';
+import slugify from 'slugify';
 
 import deckModel from '../../models/deckModel';
 
-const initialState = [
-  {
+const initialState = {
+  [slugify("Sliver Horde")]: {
     ...deckModel,
-    id: uuid(),
     name: "Sliver Horde",
     colors: "{B}{W}{R}{U}{G}",
     format: "commander",
     backgroundImg: undefined
   },
-  {
+  [slugify("other")]: {
     ...deckModel,
-    id: uuid(),
     name: "other",
     colors: "{B}",
     backgroundImg: undefined
   }
-];
+};
 
 /** Deck slice */
 
@@ -28,14 +26,19 @@ export const deckSlice = createSlice({
   initialState,
   reducers: {
     newDeck: (state, action) => {
-      state.push({
+      const name = action.payload;
+
+      state[slugify(name)] = {
         ...deckModel,
-        id: uuid(),
-        name: action.payload,
-      })
+        name,
+      }
     },
+
     addCard: (state, action) => {
-      const { name, card, types } = action.payload;
+      const { name, cardObj } = action.payload;
+      const { types } = cardObj;
+      const deck = state[slugify(name)];
+
       let type;
       if (types.includes("Creature"))
         type = "Creature";
@@ -46,40 +49,52 @@ export const deckSlice = createSlice({
       else
         type = types[0];
       
-      state[name].deckList[type.toLowerCase()].push(card);
+      deck.deckList[type.toLowerCase()].push(cardObj);
+      deck.cardCount++;
     },
+
     addLand: (state, action) => {
       const { name, land } = action.payload;
-      state[name].basicLands[land.toLowerCase()] += 1;
-      state[name].cardCount += 1;
+      const deck = state[slugify(name)];
+
+      deck.basicLands[land.toLowerCase()]++;
+      deck.cardCount++;
     },
+
     sideboardCard: (state, action) => {
-      const { name, card } = action.payload;
-      state[name].sideboard.push(card);
+      const { name, cardObj } = action.payload;
+      const deck = state[slugify(name)];
+
+      deck.sideboard.push(cardObj);
     },
+
     setCommander: (state, action) => {
       const { name, commander } = action.payload;
-      if (!state[name].commander)
-        state[name].cardCount += 1;
-      state[name].commander = commander;
-      state[name].colors = commander.colors;
+      const deck = state[slugify(name)];
+
+      if (!deck.commander)
+        deck.cardCount += 1;
+      deck.commander = commander;
+      deck.colors = commander.colors;
     },
+
     setFormat: (state, action) => {
       const { name, format } = action.payload;
+      const deck = state[slugify(name)];
+
       switch (format.toLowerCase()) {
         case "standard":
-          state[name].minCount = 60;
-          state[name].duplicateLimit = 4;
-          state[name].deckList.commander = undefined;
+          deck.minCount = 60;
+          deck.duplicateLimit = 4;
+          deck.deckList.commander = undefined;
           break;
         case "commander":
-          state[name].minCount = 100;
-          state[name].duplicateLimit = 1;
+          deck.minCount = 100;
+          deck.duplicateLimit = 1;
           break;
       }
-      state[name].format = format;
+      deck.format = format;
     },
-  
   }
 });
 

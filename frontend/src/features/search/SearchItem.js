@@ -2,15 +2,22 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, ButtonGroup, Card, CardBody, CardText, ListGroupItem } from "reactstrap";
+
 import Mana from "../../common/Mana";
+import { addCard } from "../decks/deckSlice";
 
 const SearchItem = ({ cardObj }) => {
   const { manaCost, imageUrl, amt } = cardObj;
-
   const { name } = useParams();
-  const deckState = useSelector(st => st.decks.find(deck => deck.name === name));
+  const deckState = useSelector(st => st.decks[name]);
   const dispatch = useDispatch();
 
+  let disabled = false;
+  
+  for (let type of cardObj.types) {
+    if (deckState.deckList[type.toLowerCase()].find(card => card.name === cardObj.name))
+      disabled = true;
+  }
 
   return (
     <ListGroupItem
@@ -27,7 +34,12 @@ const SearchItem = ({ cardObj }) => {
           <ButtonGroup
             className="col"
           >
-            <Button>Add</Button>
+            <Button
+              disabled={disabled}
+              onClick={() => {dispatch(addCard({ name, cardObj }))}}            
+            >
+              Add
+            </Button>
           </ButtonGroup>
         </CardBody>
       </Card>
