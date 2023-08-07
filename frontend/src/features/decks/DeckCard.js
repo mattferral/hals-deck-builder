@@ -8,13 +8,13 @@ import {
   CardHeader,
   CardFooter,
 } from 'reactstrap';
-import slugify from 'slugify';
 
 import Mana from '../../common/Mana';
 
 
 const DeckCard = ({ deck }) => {
   const {
+    id,
     name,
     colors,
     backgroundImg,
@@ -28,13 +28,12 @@ const DeckCard = ({ deck }) => {
   
   return (
     <>
-      <Link to={`/decks/${slugify(name)}`} className='text-muted'
+      <Link to={`/decks/${id}`} className='text-muted'
         style={{
           width: '15rem',
         }}
       >
         <Card className='bg-dark bg-opacity-75 m-2'>
-
 
           <CardHeader className='text-muted'>
             <CardTitle className='text-white'>
@@ -44,7 +43,6 @@ const DeckCard = ({ deck }) => {
             <CardSubtitle className='text-light'>{format}</CardSubtitle>
             <CardSubtitle className='text-light'>{cardCount}/{minCount}</CardSubtitle>
           </CardHeader>
-          
 
           <CardImg
             src={backgroundImg ? backgroundImg : defaultImgURL}

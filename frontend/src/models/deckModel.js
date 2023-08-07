@@ -8,7 +8,7 @@ const deckModel = {
   duplicateLimit: 4,
   backgroundImg: undefined,
   deckList: {
-    commander: undefined,
+    commander: [],
     artifact: [],
     creature: [],
     enchantment: [],

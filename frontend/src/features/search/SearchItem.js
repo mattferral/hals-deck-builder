@@ -8,8 +8,8 @@ import { addCard } from "../decks/deckSlice";
 
 const SearchItem = ({ cardObj }) => {
   const { manaCost, imageUrl, amt } = cardObj;
-  const { name } = useParams();
-  const deckState = useSelector(st => st.decks[name]);
+  const { id } = useParams();
+  const deckState = useSelector(st => st.decks[id]);
   const dispatch = useDispatch();
 
   let disabled = false;
@@ -36,7 +36,7 @@ const SearchItem = ({ cardObj }) => {
           >
             <Button
               disabled={disabled}
-              onClick={() => {dispatch(addCard({ name, cardObj }))}}            
+              onClick={() => {dispatch(addCard({ id, cardObj }))}}            
             >
               Add
             </Button>

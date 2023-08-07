@@ -27,17 +27,19 @@ export const deckSlice = createSlice({
   reducers: {
     newDeck: (state, action) => {
       const name = action.payload;
+      const id = slugify(name.toLowerCase());
 
-      state[slugify(name)] = {
+      state[id] = {
         ...deckModel,
+        id,
         name,
       }
     },
 
     addCard: (state, action) => {
-      const { name, cardObj } = action.payload;
+      const { id, cardObj } = action.payload;
       const { types } = cardObj;
-      const deck = state[slugify(name)];
+      const deck = state[id];
 
       let type;
       if (types.includes("Creature"))
@@ -54,39 +56,39 @@ export const deckSlice = createSlice({
     },
 
     addLand: (state, action) => {
-      const { name, land } = action.payload;
-      const deck = state[slugify(name)];
+      const { id, land } = action.payload;
+      const deck = state[id];
 
       deck.basicLands[land.toLowerCase()]++;
       deck.cardCount++;
     },
 
     sideboardCard: (state, action) => {
-      const { name, cardObj } = action.payload;
-      const deck = state[slugify(name)];
+      const { id, cardObj } = action.payload;
+      const deck = state[id];
 
       deck.sideboard.push(cardObj);
     },
 
     setCommander: (state, action) => {
-      const { name, commander } = action.payload;
-      const deck = state[slugify(name)];
+      const { id, commander } = action.payload;
+      const deck = state[id];
 
       if (!deck.commander)
         deck.cardCount += 1;
-      deck.commander = commander;
+      deck.commander = [commander];
       deck.colors = commander.colors;
     },
 
     setFormat: (state, action) => {
-      const { name, format } = action.payload;
-      const deck = state[slugify(name)];
+      const { id, format } = action.payload;
+      const deck = state[id];
 
       switch (format.toLowerCase()) {
         case "standard":
           deck.minCount = 60;
           deck.duplicateLimit = 4;
-          deck.deckList.commander = undefined;
+          deck.deckList.commander = [];
           break;
         case "commander":
           deck.minCount = 100;

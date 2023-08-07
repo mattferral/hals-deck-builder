@@ -7,9 +7,9 @@ import CardSearch from "../search/CardSearch";
 import SearchList from "../search/SearchList";
 
 const Deck = () => {
-  const { name } = useParams();
+  const { id } = useParams();
 
-  const deckState = useSelector(st => st.decks[name]);
+  const deckState = useSelector(st => st.decks[id]);
 
   const {
     format,
