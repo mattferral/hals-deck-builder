@@ -6,6 +6,7 @@ import deckModel from '../../models/deckModel';
 const initialState = {
   [slugify("Sliver Horde")]: {
     ...deckModel,
+    id: slugify("Sliver Horde"),
     name: "Sliver Horde",
     colors: "{B}{W}{R}{U}{G}",
     format: "commander",
@@ -13,6 +14,7 @@ const initialState = {
   },
   [slugify("other")]: {
     ...deckModel,
+    id: slugify("other"),
     name: "other",
     colors: "{B}",
     backgroundImg: undefined
@@ -51,6 +53,7 @@ export const deckSlice = createSlice({
       else
         type = types[0];
       
+      cardObj.amt = 1;
       deck.deckList[type.toLowerCase()].push(cardObj);
       deck.cardCount++;
     },
@@ -73,10 +76,11 @@ export const deckSlice = createSlice({
     setCommander: (state, action) => {
       const { id, commander } = action.payload;
       const deck = state[id];
+      let currentCommander = deck.deckList.commander;
 
-      if (!deck.commander)
-        deck.cardCount += 1;
-      deck.commander = [commander];
+      if (currentCommander.length)
+        deck.deckList.creature.push(currentCommander);
+      deck.deckList.commander = [commander];
       deck.colors = commander.colors;
     },
 

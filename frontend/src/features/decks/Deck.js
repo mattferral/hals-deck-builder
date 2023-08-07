@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { ListGroup, List, } from "reactstrap";
 
 import CardSearch from "../search/CardSearch";
-import SearchList from "../search/SearchList";
+import CardList from "./CardList";
 
 const Deck = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ const Deck = () => {
           <div key={key}>
             {!!deckList[key].length && 
               <ListGroup>
-                <SearchList cards={deckList[key]} />
+                <CardList cards={deckList[key]} />
               </ListGroup>
             }
           </div>
