@@ -26,16 +26,13 @@ const Deck = () => {
   return (
     <>
       <h1 className="text-light">{deckState.name}</h1>
-        {Object.keys(deckList).map(key => (
-          <div key={key}>
-            {!!deckList[key].length && 
-              <ListGroup>
-                <CardList cards={deckList[key]} />
-              </ListGroup>
-            }
-          </div>
-        ))}
-      
+      {Object.keys(deckList).map(key => (
+        <div key={key}>
+          {!!deckList[key].length &&
+            <CardList cards={deckList[key]} type={key} />
+          }
+        </div>
+      ))}
 
       <CardSearch 
         deck={deckState}

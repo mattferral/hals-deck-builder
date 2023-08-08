@@ -9,20 +9,33 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Input,
-  InputGroup,
   ListGroupItem,
   Row
 } from "reactstrap";
 
 import Mana from "../../common/Mana";
+import { changeCardAmt } from "./deckSlice";
 
-const CardListItem = ({ cardObj }) => {
-  const { manaCost, imageUrl, amt, duplicateLimit } = cardObj;
-  const dispatch = useDispatch();
+const CardListItem = ({ cardObj, type }) => {
+  const { manaCost, imageUrl, amt } = cardObj;
+
+  const { id } = useParams();
+  const { duplicateLimit } = useSelector(st => st.decks[id]);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+
+  const dispatch = useDispatch();
+  
+  const changeAmt = (amt) => {
+    dispatch(changeCardAmt({
+      id,
+      cardId: cardObj.id,
+      type,
+      amt,
+    }))
+  };
+
 
   return (
     <ListGroupItem
@@ -34,6 +47,7 @@ const CardListItem = ({ cardObj }) => {
           <Col className="col-2">
               <Button
                 size="sm"
+                onClick={() => changeAmt(-1)}
                 disabled={amt < 2}
                 outline
               >
@@ -42,6 +56,7 @@ const CardListItem = ({ cardObj }) => {
                 {` ${amt||1}x `}
               <Button
                 size="sm"
+                onClick={() => changeAmt(1)}
                 disabled={amt === duplicateLimit}
                 outline
               >

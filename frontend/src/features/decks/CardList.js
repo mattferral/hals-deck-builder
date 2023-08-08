@@ -3,15 +3,21 @@ import { ListGroup } from "reactstrap";
 
 import CardItem from "./CardListItem";
 
-const CardList = ({ cards, className }) => {
+const CardList = ({ cards, type }) => {
   
   return (
-    
-    <ListGroup className={className}>
-      {!!cards.length && cards.map(card => (
-          <CardItem cardObj={card} key={card.id} />
-      ))}
-    </ListGroup>
+    <>
+      <h2 className="text-white">{type}</h2>
+      <ListGroup>
+        {!!cards.length && cards.map(card => (
+            <CardItem
+              cardObj={card}
+              key={card.id}
+              type={type}
+            />
+        ))}
+      </ListGroup>
+    </>
   );
 };
 

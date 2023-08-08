@@ -101,6 +101,13 @@ export const deckSlice = createSlice({
       }
       deck.format = format;
     },
+
+    changeCardAmt: (state, action) => {
+      const { id, cardId, type, amt } = action.payload;
+      const card = state[id].deckList[type].find(card => card.id === cardId);
+      
+      card.amt += amt;
+    }
   }
 });
 
@@ -112,6 +119,7 @@ export const {
   sideboardCard,
   setCommander,
   setFormat,
+  changeCardAmt,
 } = deckSlice.actions;
 
 // Export deck reducer
