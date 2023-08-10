@@ -46,7 +46,7 @@ export const deckSlice = createSlice({
       let type;
       if (types.includes("Creature"))
         type = "Creature";
-      else if (types.inclues("Land"))
+      else if (types.includes("Land"))
         type = "Land"
       else if(types.includes("Enchantment"))
         type = "Enchantment"
@@ -74,14 +74,16 @@ export const deckSlice = createSlice({
     },
 
     setCommander: (state, action) => {
-      const { id, commander } = action.payload;
+      const { id, type, commander } = action.payload;
       const deck = state[id];
       let currentCommander = deck.deckList.commander;
 
       if (currentCommander.length)
-        deck.deckList.creature.push(currentCommander);
+        deck.deckList.creature.push(currentCommander[0]);
       deck.deckList.commander = [commander];
-      deck.colors = commander.colors;
+      deck.colors = commander.colors.join();
+
+      deck.deckList[type] = deck.deckList[type].filter(card => card.id !== commander.id)
     },
 
     setFormat: (state, action) => {
