@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { ListGroup, List, } from "reactstrap";
 
 import CardSearch from "../search/CardSearch";
-import CardList from "./CardList";
+import DeckList from "./DeckList";
 
 const Deck = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const Deck = () => {
       {Object.keys(deckList).map(key => (
         <div key={key}>
           {!!deckList[key].length &&
-            <CardList cards={deckList[key]} type={key} />
+            <DeckList cards={deckList[key]} type={key} />
           }
         </div>
       ))}

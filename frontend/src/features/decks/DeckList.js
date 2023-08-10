@@ -1,16 +1,16 @@
 import React from "react";
 import { ListGroup } from "reactstrap";
 
-import CardItem from "./CardListItem";
+import DeckListItem from "./DeckListItem";
 
-const CardList = ({ cards, type }) => {
+const DeckList = ({ cards, type }) => {
   
   return (
     <>
       <h2 className="text-white">{type}</h2>
       <ListGroup>
         {!!cards.length && cards.map(card => (
-            <CardItem
+            <DeckListItem
               cardObj={card}
               key={card.id}
               type={type}
@@ -21,4 +21,4 @@ const CardList = ({ cards, type }) => {
   );
 };
 
-export default CardList;
+export default DeckList;
