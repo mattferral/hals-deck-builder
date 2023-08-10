@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, ButtonGroup, Card, CardBody, CardText, ListGroupItem } from "reactstrap";
 
 import Mana from "../../common/Mana";
-import { addCard } from "../decks/deckSlice";
+import { addRemoveCard } from "../decks/deckSlice";
 
 const SearchItem = ({ cardObj }) => {
   const { manaCost, imageUrl, amt } = cardObj;
@@ -18,6 +18,15 @@ const SearchItem = ({ cardObj }) => {
     if (deckState.deckList[type.toLowerCase()].find(card => card.name === cardObj.name))
       disabled = true;
   }
+
+  const addCard = () => {
+    dispatch(addRemoveCard({
+      id,
+      cardObj,
+      method: "ADD"
+    }))
+  };
+
 
   return (
     <ListGroupItem
@@ -38,7 +47,7 @@ const SearchItem = ({ cardObj }) => {
           >
             <Button
               disabled={disabled}
-              onClick={() => {dispatch(addCard({ id, cardObj }))}}            
+              onClick={() => addCard()}            
             >
               Add
             </Button>

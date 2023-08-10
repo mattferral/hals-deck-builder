@@ -14,7 +14,11 @@ import {
 } from "reactstrap";
 
 import Mana from "../../common/Mana";
-import { changeCardAmt, setCommander } from "./deckSlice";
+import {
+  changeCardAmt,
+  setCommander,
+  addRemoveCard,
+} from "./deckSlice";
 
 const DeckItem = ({ cardObj, type }) => {
   const { manaCost, imageUrl, amt } = cardObj;
@@ -41,6 +45,14 @@ const DeckItem = ({ cardObj, type }) => {
       id,
       type,
       commander: cardObj
+    }))
+  };
+
+  const removeCard = () => {
+    dispatch(addRemoveCard({
+      id,
+      cardObj,
+      method: "REMOVE",
     }))
   };
 
@@ -92,7 +104,10 @@ const DeckItem = ({ cardObj, type }) => {
                   Make commander
                 </DropdownItem>
               }
-              <DropdownItem color="danger">Remove</DropdownItem>
+              <DropdownItem
+                onClick={() => removeCard()}>
+                  Remove
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Col>

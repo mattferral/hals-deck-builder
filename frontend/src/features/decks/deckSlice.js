@@ -38,11 +38,12 @@ export const deckSlice = createSlice({
       }
     },
 
-    addCard: (state, action) => {
-      const { id, cardObj } = action.payload;
+    addRemoveCard: (state, action) => {
+      const { id, cardObj, method } = action.payload;
       const { types } = cardObj;
       const deck = state[id];
-
+      
+      // This if block should be a helper function
       let type;
       if (types.includes("Creature"))
         type = "Creature";
@@ -53,9 +54,14 @@ export const deckSlice = createSlice({
       else
         type = types[0];
       
-      cardObj.amt = 1;
-      deck.deckList[type.toLowerCase()].push(cardObj);
-      deck.cardCount++;
+      if (method === "ADD") {
+        cardObj.amt = 1;
+        deck.deckList[type.toLowerCase()].push(cardObj);
+        deck.cardCount++;
+      } else if (method === "REMOVE") {
+        deck.deckList[type.toLowerCase()] = deck.deckList[type.toLowerCase()].filter(card => card.id !== cardObj.id);
+        deck.cardCount--;
+      }
     },
 
     addLand: (state, action) => {
@@ -116,7 +122,7 @@ export const deckSlice = createSlice({
 // Export action creators
 export const {
   newDeck,
-  addCard,
+  addRemoveCard,
   addLand,
   sideboardCard,
   setCommander,
