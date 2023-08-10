@@ -1,7 +1,7 @@
 import React from "react";
 import { ListGroup } from "reactstrap";
 
-import DeckListItem from "./DeckListItem";
+import DeckItem from "./DeckItem";
 
 const DeckList = ({ cards, type }) => {
   
@@ -10,7 +10,7 @@ const DeckList = ({ cards, type }) => {
       <h2 className="text-white">{type}</h2>
       <ListGroup>
         {!!cards.length && cards.map(card => (
-            <DeckListItem
+            <DeckItem
               cardObj={card}
               key={card.id}
               type={type}
