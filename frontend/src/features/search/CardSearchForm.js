@@ -11,7 +11,7 @@ import {
   Card,
 } from "reactstrap";
 
-const CardSearchForm = ({ getSearch }) => {
+const CardSearchForm = ({ getSearch, showColors }) => {
   const initialState = {
     name: "",
     rarity: "",
@@ -152,25 +152,27 @@ const CardSearchForm = ({ getSearch }) => {
                   placeholder="e.g. eldrazi, aura, vehicle"
                 />
               </div>
-
-              <div className="row">
-                <Label for="color">Color</Label>
-                <FormGroup name="color" className="row">
-                  {Object.keys(initialState.color).map(color => (
-                    <FormGroup className="col" key={color}>
-                      <Label for={color}>{color}</Label>
-                      <Input
-                        type="checkbox"
-                        id="color"
-                        name={color}
-                        onChange={handleChange}
-                        checked={formData.color[color]}
-                        className="m-1"
-                      />
-                    </FormGroup>
-                  ))}
-                </FormGroup>
-              </div>
+              
+              {showColors &&
+                <div className="row">
+                  <Label for="color">Color</Label>
+                  <FormGroup name="color" className="row">
+                    {Object.keys(initialState.color).map(color => (
+                      <FormGroup className="col" key={color}>
+                        <Label for={color}>{color}</Label>
+                        <Input
+                          type="checkbox"
+                          id="color"
+                          name={color}
+                          onChange={handleChange}
+                          checked={formData.color[color]}
+                          className="m-1"
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormGroup>
+                </div>
+              }
 
               <div className="row">
                 <Label for="type">Type</Label>

@@ -8,7 +8,7 @@ const initialState = {
     ...deckModel,
     id: slugify("Sliver Horde"),
     name: "Sliver Horde",
-    colors: "{B}{W}{R}{U}{G}",
+    colors: ["B", "W", "R", "U", "G"],
     format: "commander",
     backgroundImg: undefined
   },
@@ -16,7 +16,7 @@ const initialState = {
     ...deckModel,
     id: slugify("other"),
     name: "other",
-    colors: "{B}",
+    colors: ["B"],
     backgroundImg: undefined
   }
 };

@@ -30,19 +30,24 @@ const CardSearch = ({ deck, className }) => {
       
       if (field === 'color') {
         let params = [];
-        for(let color of Object.keys(value)) {
-          if (value[color])
-            params.push(color[0]);
-        }
+
+        if (deck)
+          params = deck.colors;
+
+        else 
+          for(let color of Object.keys(value)) 
+            if (value[color])
+              params.push(color[0]);
+
         if (params.length)
           searchURL.searchParams.append("colors", params.toString());
 
       } else if (field === 'type') {
         let params = [];
-        for(let type of Object.keys(value)) {
+        for(let type of Object.keys(value)) 
           if (value[type])
             params.push(type);
-        }
+        
         if (params.length)
           searchURL.searchParams.append("types", params.toString());
 

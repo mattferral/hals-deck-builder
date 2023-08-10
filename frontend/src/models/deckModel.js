@@ -2,7 +2,7 @@ const deckModel = {
   id: undefined,
   name: '',
   format: 'standard',
-  colors: '',
+  colors: [],
   minCount: 60,
   cardCount: 0,
   duplicateLimit: 4,
