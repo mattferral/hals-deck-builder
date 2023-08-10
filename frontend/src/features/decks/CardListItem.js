@@ -14,13 +14,13 @@ import {
 } from "reactstrap";
 
 import Mana from "../../common/Mana";
-import { changeCardAmt } from "./deckSlice";
+import { changeCardAmt, setCommander } from "./deckSlice";
 
 const CardListItem = ({ cardObj, type }) => {
   const { manaCost, imageUrl, amt } = cardObj;
 
   const { id } = useParams();
-  const { duplicateLimit } = useSelector(st => st.decks[id]);
+  const { duplicateLimit, format } = useSelector(st => st.decks[id]);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -33,6 +33,14 @@ const CardListItem = ({ cardObj, type }) => {
       cardId: cardObj.id,
       type,
       amt,
+    }))
+  };
+
+  const changeCommander = () => {
+    dispatch(setCommander({
+      id,
+      type,
+      commander: cardObj
     }))
   };
 
@@ -76,8 +84,13 @@ const CardListItem = ({ cardObj, type }) => {
           <Dropdown isOpen={dropdownOpen} toggle={toggle} className="">
             <DropdownToggle caret>Edit</DropdownToggle>
             <DropdownMenu>
-              {cardObj.types.includes("Creature") && 
-                <DropdownItem>Make commander</DropdownItem>
+              {type === "creature" &&
+                format === "commander" && 
+                <DropdownItem
+                  onClick={() => changeCommander()}
+                >
+                  Make commander
+                </DropdownItem>
               }
               <DropdownItem color="danger">Remove</DropdownItem>
             </DropdownMenu>
