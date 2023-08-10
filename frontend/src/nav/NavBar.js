@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
 
 //import UserContext from '../common/UserContext';
@@ -8,11 +8,11 @@ const NavBar = ({ logout }) => {
 
   const user = undefined //useContext(UserContext);
 
-  //const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    //history.push('/');
+    navigate.push('/');
   };
 
   return (
