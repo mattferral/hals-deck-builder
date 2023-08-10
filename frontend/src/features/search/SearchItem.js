@@ -28,9 +28,11 @@ const SearchItem = ({ cardObj }) => {
           <CardText className="col text-light">
              {amt ? `${amt}x ` : null} {cardObj.name}
           </CardText>
-
-          <Mana mana={manaCost} className="col" size="1.5rem" />
-
+          
+          {manaCost &&
+            <Mana mana={manaCost} className="col" size="1.5rem" />
+          }
+          
           <ButtonGroup
             className="col"
           >
