@@ -3,7 +3,7 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   email TEXT NOT NULL
     CHECK (position('@' IN email) > 1),
-  isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
+  isAdmin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE matches (
@@ -13,5 +13,5 @@ CREATE TABLE matches (
   username_2 VARCHAR(25) NOT NULL
     REFERENCES users ON DELETE CASCADE,
   winner VARCHAR(25) NOT NULL
-    REFERENCES users ON DELETE CASCADE,
+    REFERENCES users ON DELETE CASCADE
 );
