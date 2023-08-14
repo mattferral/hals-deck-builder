@@ -97,9 +97,9 @@ class User {
   static async remove(username) {
     let result = await db.query(
           `DELETE
-           FROM users
-           WHERE username = $1
-           RETURNING username`,
+              FROM users
+              WHERE username = $1
+              RETURNING username`,
         [username],
     );
     const user = result.rows[0];
@@ -123,7 +123,7 @@ class User {
               FROM matches as m
               WHERE m.username_1 = $1 OR m.username_2 = $1`,
         [username],
-    ); 
+    );
 
     const user = userResult.rows[0];
     const matchHistory = matchesResult.rows;
@@ -138,10 +138,10 @@ class User {
   static async getRankings() {
     const result = await db.query(
           `SELECT winner, COUNT(winner) as value_occurance
-            FROM matches
-            GROUP BY winner
-            ORDER BY value_occurance DESC
-            LIMIT 1`
+              FROM matches
+              GROUP BY winner
+              ORDER BY value_occurance DESC
+              LIMIT 1`
     );
     
     const rankings = result.rows;
@@ -149,17 +149,50 @@ class User {
     return rankings;
   }
 
-  static async addMatch(opponent1, opponent2, winner) {
+
+  static async addMatch(player1, player2, winner) {
     const result = await db.query(
           `INSERT INTO matches (username_1,
                                 username_2,
                                 winner)
               VALUES ($1, $2, $3)
-           RETURNING *`,
-          [opponent1, opponent1, winner],
+           RETURNING id,
+                     username_1 as player1,
+                     username_2 as player2,
+                     winner`,
+          [player1, player2, winner],
     );
+    
+    const match = result.rows[0];
+    
+    return match;
+  }
 
+  static async removeMatch(id) {
+    const result = await db.query(
+          `DELETE
+           FROM matches
+           WHERE id = $1
+           RETURNING id`,
+        [id],
+    );
+    const match = result.rows[0];
 
+    if (!match) throw new NotFoundError(`No match: ${id}`);
+  }
+
+  
+  static async getMatchHistory(username) {
+    const result = await db.query(
+          `SELECT *
+              FROM matches as m
+              WHERE m.username_1 = $1 OR m.username_2 = $1`,
+        [username],
+    );
+    
+    const matchHistory = result.rows;
+
+    return matchHistory;
   }
 
 }
