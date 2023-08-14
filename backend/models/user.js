@@ -2,8 +2,6 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
 
-
-
 const {
   UnauthorizedError,
   NotFoundError
@@ -16,7 +14,7 @@ class User {
   static async authenticate(username, password) {
     const result = await db.query(
       `SELECT username,
-              password,
+              password
           FROM users
           WHERE username = $1`,
       [username]
@@ -35,7 +33,7 @@ class User {
   }
 
 
-  static async register({ username, password, email, isAdmin }) {
+  static async register({ username, password, email }) {
     const duplicateCheck = await db.query(
       `SELECT username
           FROM users
@@ -51,15 +49,14 @@ class User {
 
     const result = await db.query(
       `INSERT INTO users (username,
-                          password,
-                          is_admin)
-          VALUES ($1, $2, $3, $4)
+                          email,
+                          password)
+          VALUES ($1, $2, $3)
           RETURNING username, password, email, is_admin AS "isAdmin"`,
       [
         username,
-        hashedPassword,
         email,
-        isAdmin,
+        hashedPassword,
       ],
     );
 
@@ -112,20 +109,57 @@ class User {
 
 
   static async get(username) {
-    const result = await db.query(
+    const userResult = await db.query(
           `SELECT username,
                   email,
                   is_admin AS "isAdmin"
-           FROM users
-           WHERE username = $1`,
+              FROM users
+              WHERE username = $1`,
         [username],
     );
 
-    const user = result.rows[0];
+    const matchesResult = await db.query(
+          `SELECT *
+              FROM matches as m
+              WHERE m.username_1 = $1 OR m.username_2 = $1`,
+        [username],
+    ); 
+
+    const user = userResult.rows[0];
+    const matchHistory = matchesResult.rows;
+    user.matchHistory = matchHistory;
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
     return user;
+  }
+
+
+  static async getRankings() {
+    const result = await db.query(
+          `SELECT winner, COUNT(winner) as value_occurance
+            FROM matches
+            GROUP BY winner
+            ORDER BY value_occurance DESC
+            LIMIT 1`
+    );
+    
+    const rankings = result.rows;
+
+    return rankings;
+  }
+
+  static async addMatch(opponent1, opponent2, winner) {
+    const result = await db.query(
+          `INSERT INTO matches (username_1,
+                                username_2,
+                                winner)
+              VALUES ($1, $2, $3)
+           RETURNING *`,
+          [opponent1, opponent1, winner],
+    );
+
+
   }
 
 }
