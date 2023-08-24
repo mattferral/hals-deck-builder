@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 
 const {
   UnauthorizedError,
-  NotFoundError
+  NotFoundError,
+  BadRequestError,
 } = require("../expressError");
 
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
@@ -23,7 +24,7 @@ class User {
     const user = result.rows[0];
 
     if (user) {
-      if (await bcrypt.compare(user.password, password)) {
+      if (await bcrypt.compare(password, user.password)) {
         delete user.password;
         return user;
       }
@@ -137,11 +138,14 @@ class User {
 
   static async getRankings() {
     const result = await db.query(
-          `SELECT winner, COUNT(winner) as value_occurance
-              FROM matches
-              GROUP BY winner
-              ORDER BY value_occurance DESC
-              LIMIT 1`
+          `SELECT ROW_NUMBER() OVER() AS rank,
+                  u.username,
+                  COUNT(m.winner) as wins
+              FROM users as u
+              LEFT JOIN matches as m
+              ON u.username = m.winner
+              GROUP BY u.username
+              ORDER BY wins DESC`
     );
     
     const rankings = result.rows;

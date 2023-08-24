@@ -1,12 +1,10 @@
 const User = require("../models/user");
 const {
   ensureCorrectUserOrAdmin,
-  ensureAdmin,
   ensureLoggedIn,
 } = require("../middleware/auth");
 
 const express = require("express");
-const { BadRequestError } = require("../expressError");
 const router = express.Router();
 
 
@@ -78,42 +76,6 @@ router.get("/:username/matches", ensureLoggedIn, async function (req, res, next)
   try {
     const matchHistory = await User.getMatchHistory(req.params.username);
     return res.status(201).json({ matchHistory });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-
-/** POST /matches => { match }
- *
- * Returns { match: { id, player1, player2, winner } }
- *
- * Authorization required: admin
- **/
-
-router.post("/matches", ensureAdmin, async function (req, res, next) {
-  try {
-    const { player1, player2, winner } = req.params;
-    if (!player1 || !player2 || winner)
-      throw BadRequestError("Missing fields: Expected { player1, player2, winner }");
-
-    const match = await User.addMatch(player1, player2, winner);
-    return res.json({ match });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-
-/** DELETE /matches/[id]  =>  { deleted: id }
- *
- * Authorization required: admin
- **/
-
-router.delete("/matches/:id", ensureAdmin, async function (req, res, next) {
-  try {
-    await User.remove(req.params.id);
-    return res.json({ deleted: req.params.id });
   } catch (err) {
     return next(err);
   }
