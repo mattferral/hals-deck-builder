@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
-const Login = ({ getToken }) => {
+import UserContext from "../common/UserContext";
+
+const Login = () => {
   const INITIAL_STATE = {
     username: '',
     password: '',
   };
+
+  const { getToken } = useContext(UserContext);
 
   const [formData, setFormData] = useState(INITIAL_STATE);
 
@@ -24,7 +28,7 @@ const Login = ({ getToken }) => {
     e.preventDefault();
     try {
       await getToken(formData);
-      navigate.push("/");
+      navigate("/");
     } catch (e) {
       console.error(e);
       setFormData(fData => ({

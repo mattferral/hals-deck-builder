@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
-const SignUp = ({ signup }) => {
+import UserContext from "../common/UserContext";
+
+const SignUp = () => {
 
   const INITIAL_STATE = {
     firstName: '',
@@ -11,6 +13,8 @@ const SignUp = ({ signup }) => {
     username: '',
     password: '',
   };
+
+  const { signup } = useContext(UserContext);
 
   const [formData, setFormData] = useState(INITIAL_STATE);
   
@@ -28,7 +32,7 @@ const SignUp = ({ signup }) => {
     e.preventDefault();
     try {
       await signup(formData);
-      navigate.push("/");
+      navigate("/");
     } catch (e) {
       console.error(e);
     }
