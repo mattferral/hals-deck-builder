@@ -6,6 +6,8 @@ import Decks from '../features/decks/Decks';
 import Deck from '../features/decks/Deck';
 import Login from '../auth/Login';
 import SignUp from '../auth/SignUp';
+import UserProfile from '../users/UserProfile';
+import Rankings from '../users/Rankings';
 
 const Router = () => {
   return (
@@ -15,6 +17,8 @@ const Router = () => {
       <Route exact path="/decks/:id" element={<Deck />} />
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/signup" element={<SignUp />} />
+      <Route exact path="/profile" element={<UserProfile />} />
+      <Route exact path="/rankings" element={<Rankings />} />
     </Routes>
   );
 };
