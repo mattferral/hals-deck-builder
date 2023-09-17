@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ListGroup, List, } from "reactstrap";
+import { Button, Collapse } from "reactstrap";
 
 import CardSearch from "../search/CardSearch";
 import DeckList from "./DeckList";
@@ -23,20 +23,44 @@ const Deck = () => {
   } = deckState;
   console.log(deckState);
 
+  const [showSearch, setShowSearch] = useState(false);
+  const toggleSearch = () => setShowSearch(!showSearch);
+
   return (
     <>
       <h1 className="text-light">{deckState.name}</h1>
-      {Object.keys(deckList).map(key => (
-        <div key={key}>
-          {!!deckList[key].length &&
-            <DeckList cards={deckList[key]} type={key} />
-          }
-        </div>
-      ))}
+      
+      <Collapse
+        isOpen={!showSearch}
+      >
+        {Object.keys(deckList).map(key => (
+          <>
+            {!!deckList[key].length &&
+              <div key={key}>
+                <DeckList cards={deckList[key]} type={key} />
+              </div>
+            }
+          </>
+        ))}
+      </Collapse>
+      
 
-      <CardSearch 
-        deck={deckState}
-      />
+      <Button
+        color="primary"
+        onClick={toggleSearch}
+      >
+        Show {showSearch ? "Deck" : "Search"}
+      </Button>
+      
+      <Collapse
+        isOpen={showSearch}
+      >
+        <CardSearch 
+          deck={deckState}
+        />
+      </Collapse>
+      
+      
     </>
   );
 };

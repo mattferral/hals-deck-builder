@@ -5,6 +5,7 @@ import { Button, ButtonGroup, Card, CardBody, CardText, ListGroupItem } from "re
 
 import Mana from "../../common/Mana";
 import { addRemoveCard } from "../decks/deckSlice";
+import CardName from "../../common/CardName";
 
 const SearchItem = ({ cardObj }) => {
   const { manaCost, imageUrl, amt } = cardObj;
@@ -30,12 +31,15 @@ const SearchItem = ({ cardObj }) => {
 
   return (
     <ListGroupItem
-      className="w-50 m-1 border-0 bg-transparent"
+      className="w-75 m-1 border-0 bg-transparent"
     >
       <Card className="bg-dark">
         <CardBody className="row">
           <CardText className="col text-light">
-             {amt ? `${amt}x ` : null} {cardObj.name}
+            <CardName
+              name={cardObj.name}
+              imageUrl={imageUrl}
+            />
           </CardText>
           
           {manaCost &&

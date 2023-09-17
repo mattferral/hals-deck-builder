@@ -3,14 +3,9 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
-  ButtonGroup,
   Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   ListGroupItem,
-  Row
+  Row,
 } from "reactstrap";
 
 import Mana from "../../common/Mana";
@@ -19,15 +14,15 @@ import {
   setCommander,
   addRemoveCard,
 } from "./deckSlice";
+import CardName from "../../common/CardName";
+import DeckItemDropDown from "./DeckItemDropdown";
+import CardAmtControls from "./CardAmtControls";
 
 const DeckItem = ({ cardObj, type }) => {
-  const { manaCost, imageUrl, amt } = cardObj;
+  const { manaCost, name, imageUrl, amt } = cardObj;
 
   const { id } = useParams();
   const { duplicateLimit, format } = useSelector(st => st.decks[id]);
-
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const dispatch = useDispatch();
   
@@ -62,54 +57,32 @@ const DeckItem = ({ cardObj, type }) => {
       className="w-50 m-1 border-0 bg-dark text-light"
     >
       <Row>   
-        {duplicateLimit !== 1
-          ? 
-          <Col className="col-2">
-              <Button
-                size="sm"
-                onClick={() => changeAmt(-1)}
-                disabled={amt < 2}
-                outline
-              >
-                - 
-              </Button>
-                {` ${amt||1}x `}
-              <Button
-                size="sm"
-                onClick={() => changeAmt(1)}
-                disabled={amt === duplicateLimit}
-                outline
-              >
-                +
-              </Button>
-          </Col>
-          : 
-            null}
+        <Col className="col-2">
+          <CardAmtControls
+            changeAmt={changeAmt}
+            amt={amt}
+            duplicateLimit={duplicateLimit}
+          />
+        </Col>
 
-        <Col className="co-4">{cardObj.name}</Col>
+        <Col className="col-4">
+          <CardName
+            name={name}
+            imageUrl={imageUrl}
+          />
+        </Col>
 
-        <Col className="col-3">
+        <Col className="col-2">
           <Mana mana={manaCost} className="col" size="1.5rem" />
         </Col>
 
         <Col className="col-1">
-          <Dropdown isOpen={dropdownOpen} toggle={toggle} className="">
-            <DropdownToggle caret>Edit</DropdownToggle>
-            <DropdownMenu>
-              {type === "creature" &&
-                format === "commander" && 
-                <DropdownItem
-                  onClick={() => changeCommander()}
-                >
-                  Make commander
-                </DropdownItem>
-              }
-              <DropdownItem
-                onClick={() => removeCard()}>
-                  Remove
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <DeckItemDropDown
+            changeCommander={changeCommander}
+            removeCard={removeCard}
+            type={type}
+            format={format}
+          />
         </Col>
       </Row>
      
